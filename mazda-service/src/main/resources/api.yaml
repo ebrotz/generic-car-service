@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: car-gateway
+  version: 0.0.1
+
+paths:
+  /cars:
+    get:
+      description: "Gets cars"
+      operationId: getCars
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+    post:
+      description: "Adds a car"
+      operationId: postCar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MazdaCar'
+      responses:
+        "201":
+          description: Created
+  /cars/{id}:
+    get:
+      description: "Retrieves a car by a specific ID"
+      operationId: getCar
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "OK"
+
+components:
+  schemas:
+    MazdaCar:
+      type: "object"
+      allOf:
+      - $ref: '../../../../car-gateway/src/main/resources/api.yaml#/components/schemas/GenericCar'
+      properties:
+        mazdaModel:
+          type: string
+          enum:
+            - "CX-5"
+            - "Miata"
